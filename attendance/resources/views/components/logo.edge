@@ -1,0 +1,11 @@
+{{--
+  Logo de l'application : uniquement le texte PRESENCE+.
+  La prop `size` (28 par défaut dans les mises en page) règle la taille du texte.
+--}}
+@let(size = $props.get('size', 26))
+@link({
+  route: 'home',
+  style: `display: inline-flex; align-items: center; color: var(--ink); font-family: var(--sans); font-weight: 800; font-size: ${(size * 7) / 10}px; letter-spacing: 0.04em; line-height: 1; white-space: nowrap;`,
+})
+  PRESENCE+
+@end

@@ -1,0 +1,25 @@
+@layouts.marketing()
+  <div class="home">
+    <article class="prose-card">
+
+
+      <div class="pc-lead">Bienvenue sur Présence Plus !</div>
+
+      <p class="pc-para">
+        Dites adieu aux feuilles de présence papier qui circulent de rangée en rangée !
+      </p>
+
+      <p class="pc-para">
+      Présence Plus, c'est votre nouvel outil simple, rapide et 100 % numérique pour valider votre présence en cours en un instant.
+      </p>
+
+      <div style="margin-top: 28px;">
+        @link({ route: 'cp.login', class: 'btn btn--secondary btn--block' })
+          @svg('lucide:shield-check', { width: 18, height: 18 })
+          Se connecter à l’espace CP
+        @end
+      </div>
+
+    </article>
+  </div>
+@end

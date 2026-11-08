@@ -1,0 +1,55 @@
+@let(nav = [
+  { label: 'Sessions', route: 'cp.dashboard', icon: 'lucide:list' },
+  { label: 'Nouvelle session', route: 'cp.sessions.create', icon: 'lucide:qr-code' },
+])
+@let(pageTitle = $props.get('title'))
+<!DOCTYPE html>
+<html
+  lang="fr"
+  data-theme="{{
+    request.plainCookie('app_theme', {
+      defaultValue: 'light',
+      encoded: false,
+    })
+  }}"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ pageTitle ? `${pageTitle} - Espace CP` : 'Espace CP' }}</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('dumper')
+  </head>
+  <body>
+    <header class="header header--bar">
+      <div class="header__inner">
+        @!logo({ size: 28 })
+        <div class="header__right">
+          @!themeToggle()
+          @form({ route: 'cp.logout', method: 'POST' })
+            <button type="submit" class="btn btn--secondary btn--sm">
+              @svg('lucide:log-out', { width: 15, height: 15 })
+              Quitter
+            </button>
+          @end
+        </div>
+      </div>
+    </header>
+
+    <nav class="subnav">
+      <div class="subnav__inner">
+        @each(item in nav)
+          @navLink({ route: item.route, class: 'subnav__item' })
+            @if(item.icon)
+              @svg(item.icon, { width: 14, height: 14 })
+            @end
+            {{ item.label }}
+          @end
+        @end
+      </div>
+    </nav>
+
+    <div class="app-main">{{{ await $slots.main() }}}</div>
+    @include('partials/flash_alerts')
+  </body>
+</html>

@@ -1,0 +1,59 @@
+@layouts.app({ title: 'Taux de présence' })
+  @page({
+    title: 'Taux de présence',
+    description: `${user.promotion ?? ''}${user.option ? ' · ' + user.option : ''}`,
+  })
+    @if(stats.total === 0)
+      <div class="panel">
+        <p style="margin: 0;">Aucune séance n’a encore eu lieu pour ta promotion.</p>
+      </div>
+    @else
+      <div class="panel" style="margin-bottom: 28px;">
+        <p class="tag" style="margin: 0;">Taux global</p>
+        <p style="margin: 6px 0 2px; font-size: 44px; font-weight: 700; line-height: 1.1;">
+          {{ stats.rate }} %
+        </p>
+        <p style="margin: 0 0 14px; color: var(--muted);">
+          Présent à {{ stats.present }} séance{{ stats.present > 1 ? 's' : '' }} sur {{ stats.total }}
+        </p>
+        <div
+          role="progressbar"
+          aria-label="Taux de présence global"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="{{ stats.rate }}"
+          style="height: 8px; border-radius: 999px; background: var(--line-2); overflow: hidden;"
+        >
+          <div style="height: 100%; width: {{ stats.rate }}%; border-radius: 999px; background: var(--btn);"></div>
+        </div>
+      </div>
+
+      <h2 class="section__title" style="margin-bottom: 12px;">Par cours</h2>
+      <div style="display: grid; gap: 10px;">
+        @each(item in stats.courses)
+          <div class="panel" style="padding: 14px 18px;">
+            <div style="display: flex; justify-content: space-between; gap: 12px; align-items: baseline;">
+              <strong>{{ item.course }}</strong>
+              <strong>{{ item.rate }} %</strong>
+            </div>
+            <div
+              role="progressbar"
+              aria-label="Taux de présence en {{ item.course }}"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="{{ item.rate }}"
+              style="height: 6px; margin: 8px 0; border-radius: 999px; background: var(--line-2); overflow: hidden;"
+            >
+              <div style="height: 100%; width: {{ item.rate }}%; border-radius: 999px; background: var(--btn);"></div>
+            </div>
+            <div class="tag">{{ item.present }} / {{ item.total }} séance{{ item.total > 1 ? 's' : '' }}</div>
+          </div>
+        @end
+      </div>
+
+      <p style="margin-top: 20px; color: var(--muted); font-size: 13px;">
+        Seules les séances terminées et organisées après la création de ton compte sont comptées.
+      </p>
+    @end
+  @end
+@end

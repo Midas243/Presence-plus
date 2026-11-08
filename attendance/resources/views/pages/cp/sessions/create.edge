@@ -1,0 +1,63 @@
+@layouts.cp({ title: 'Nouvelle session' })
+  @page({ title: 'Nouvelle session', description: 'Renseigne le cours, puis scanne les étudiants un par un.' })
+    @form({
+      route: 'cp.sessions.store',
+      method: 'POST',
+      class: 'auth__form',
+      style: 'max-width: 480px;',
+      'x-data': "{ submitting: false, promotion: '' }",
+      'x-init': "promotion = $el.elements['promotion'].value",
+      'x-on:submit': 'submitting = true',
+    })
+      @field.root({ name: 'course' })
+        @!field.label({ text: 'Cours' })
+        @!input.control({ placeholder: 'Mathématiques financières' })
+        @!field.error()
+      @end
+
+      @field.root({ name: 'day' })
+        @!field.label({ text: 'Jour' })
+        @!select.control({ class: 'field__input', options: dayOptions })
+        @!field.error()
+      @end
+
+      @field.root({ name: 'hour' })
+        @!field.label({ text: 'Heure' })
+        @!select.control({ class: 'field__input', options: hourOptions })
+        @!field.error()
+      @end
+
+      @field.root({ name: 'promotion' })
+        @!field.label({ text: 'Promotion' })
+        @!select.control({
+          class: 'field__input',
+          'x-on:change': 'promotion = $event.target.value',
+          options: promotionOptions,
+        })
+        @!field.error()
+      @end
+
+      {{-- Affiché uniquement pour une promotion de Master --}}
+      <div x-show="promotion.startsWith('Master')" x-cloak>
+        @field.root({ name: 'option' })
+          @!field.label({ text: 'Option (facultatif)' })
+          @!select.control({
+            class: 'field__input',
+            'x-bind:disabled': "!promotion.startsWith('Master')",
+            options: optionOptions,
+          })
+          @!field.error()
+        @end
+      </div>
+
+      @!button({
+        text: 'Créer la session',
+        type: 'submit',
+        block: true,
+        style: 'margin-top: 4px;',
+        'x-bind:disabled': 'submitting',
+        'x-text': "submitting ? 'Un instant…' : 'Créer la session'",
+      })
+    @end
+  @end
+@end

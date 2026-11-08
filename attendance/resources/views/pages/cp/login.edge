@@ -1,0 +1,37 @@
+@layouts.auth()
+  <h1 class="auth__title">Espace CP</h1>
+  <p class="auth__sub">Entre le code pour créer des sessions de présence.</p>
+  @form({
+    route: 'cp.login.store',
+    method: 'POST',
+    class: 'auth__form',
+    'x-data': '{ submitting: false }',
+    'x-on:submit': 'submitting = true',
+  })
+    @field.root({ name: 'code' })
+      @!field.label({ text: 'Code d’accès' })
+      @!input.control({
+        type: 'password',
+        inputmode: 'numeric',
+        autocomplete: 'off',
+        placeholder: '••••',
+      })
+      @!field.error()
+    @end
+    @!button({
+      text: 'Entrer',
+      type: 'submit',
+      block: true,
+      style: 'margin-top: 4px;',
+      'x-bind:disabled': 'submitting',
+      'x-text': "submitting ? 'Un instant…' : 'Entrer'",
+    })
+  @end
+
+  <p class="auth__foot">
+    Tu es étudiant ?
+    @link({ route: 'session.create', class: 'il' })
+      Connecte-toi ici
+    @end
+  </p>
+@end

@@ -1,0 +1,31 @@
+@layouts.cp({ title: 'Sessions' })
+  @page({ title: 'Sessions de présence', description: 'Ouvre une session pour scanner les étudiants.' })
+    <div style="margin-bottom: 20px;">
+      @link({ route: 'cp.sessions.create', class: 'btn btn--primary' })
+        Nouvelle session
+      @end
+    </div>
+
+    @if(sessions.length === 0)
+      <div class="panel">
+        <p>Aucune session pour le moment. Crée la première pour commencer à scanner.</p>
+      </div>
+    @else
+      <div style="display: grid; gap: 12px;">
+        @each(item in sessions)
+          <a
+            class="panel"
+            style="display: block; padding: 18px; text-decoration: none; color: inherit;"
+            href="{{ urlFor('cp.sessions.show', { id: item.id }) }}"
+          >
+            <strong>{{ item.course }}</strong>
+            <div style="margin-top: 4px;">
+              {{ item.day }} · {{ item.hour }} · {{ item.promotion }}{{ item.option ? ` · ${item.option}` : '' }}
+            </div>
+            <div class="tag" style="margin-top: 8px;">{{ item.active ? 'Ouverte' : 'Clôturée' }}</div>
+          </a>
+        @end
+      </div>
+    @end
+  @end
+@end
