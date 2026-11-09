@@ -10,6 +10,5 @@ export const controllers = {
   CpSessions: () => import('#controllers/cp_sessions_controller'),
   Dashboard: () => import('#controllers/dashboard_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
-  Scan: () => import('#controllers/scan_controller'),
   Session: () => import('#controllers/session_controller'),
 }
