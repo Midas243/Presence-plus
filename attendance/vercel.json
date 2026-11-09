@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "outputDirectory": "build",
   "builds": [
     {
       "src": "build/bin/server.js",
