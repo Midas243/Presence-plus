@@ -4,7 +4,7 @@
   @form({
     route: 'new_account.store',
     method: 'POST',
-    class: 'auth__form',
+    class: 'auth__form auth__form--signup',
     'x-data': "{ submitting: false, promotion: '' }",
     'x-init': "promotion = $el.elements['promotion'].value",
     'x-on:submit': 'submitting = true',

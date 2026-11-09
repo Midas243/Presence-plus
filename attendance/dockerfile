@@ -35,15 +35,6 @@ ARG APP_URL
 # Session
 ARG SESSION_DRIVER
 
-# Database
-ARG DB_HOST
-ARG DB_PORT
-ARG DB_USER
-ARG DB_PASSWORD
-ARG DB_DATABASE
-
-
-
 # Node
 ENV TZ=${TZ}
 ENV PORT=${PORT}
@@ -58,17 +49,8 @@ ENV APP_URL=${APP_URL}
 # Session
 ENV SESSION_DRIVER=${SESSION_DRIVER}
 
-# Database
-ENV DB_HOST=${DB_HOST}
-ENV DB_PORT=${DB_PORT}
-ENV DB_USER=${DB_USER}
-ENV DB_PASSWORD=${DB_PASSWORD}
-ENV DB_DATABASE=${DB_DATABASE}
-
-
-
 COPY --from=build /app/build ./
 RUN npm ci --omit=dev
 
 EXPOSE 3333
-CMD ["sh", "-c", "node ace migration:run --force && node bin/server.js"]
+CMD ["sh", "-c", "node ace migration:run --connection=pg_direct --force && node bin/server.js"]
