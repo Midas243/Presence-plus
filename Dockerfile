@@ -1,4 +1,4 @@
-FROM node:lts-bookworm-slim AS base
+FROM node:24-bookworm-slim AS base
 
 # ----------------------------
 # Stage 1: Install all dependencies
@@ -21,36 +21,10 @@ RUN node ace build
 # ----------------------------
 FROM base AS production
 WORKDIR /app
-
-ARG TZ
-ARG PORT
-ARG HOST
-ARG NODE_ENV
-
-# App
-ARG LOG_LEVEL
-ARG APP_KEY
-ARG APP_URL
-
-# Session
-ARG SESSION_DRIVER
-
-# Node
-ENV TZ=${TZ}
-ENV PORT=${PORT}
-ENV HOST=${HOST}
-ENV NODE_ENV=${NODE_ENV}
-
-# App
-ENV LOG_LEVEL=${LOG_LEVEL}
-ENV APP_KEY=${APP_KEY}
-ENV APP_URL=${APP_URL}
-
-# Session
-ENV SESSION_DRIVER=${SESSION_DRIVER}
+ENV NODE_ENV=production
 
 COPY --from=build /app/build ./
 RUN npm ci --omit=dev
 
 EXPOSE 3333
-CMD ["sh", "-c", "node ace migration:run --connection=pg_direct --force && node bin/server.js"]
+CMD ["sh", "-c", "node ace migration:run --force && node bin/server.js"]
